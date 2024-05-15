@@ -1,17 +1,12 @@
-// Function to convert time to different time zones
-function convertTime(baseTime, baseOffset, targetOffset) {
-    const baseDateTime = new Date(`2021-01-01T${baseTime}:00.000Z`);
-    baseDateTime.setHours(baseDateTime.getHours() + targetOffset - baseOffset);
-    return baseDateTime.toISOString().substring(11, 16);  // Return time in HH:MM format
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     var submitButton = document.querySelector('input[type="submit"]');
     if (submitButton) {
-        submitButton.addEventListener('click', function(event) {
+        submitButton.addEventListener('click', async function(event) {
             event.preventDefault(); // Stop the form from submitting through HTTP
 
             const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const emojiPromises = [];
+
             days.forEach(day => {
                 var topic = document.getElementById(`topic${day}`).value;
                 var animator = document.getElementById(`animator${day}`).value;
@@ -58,7 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem(`${day}VietnamTime`, vietnamTime);
                 localStorage.setItem(`${day}PolynesiaTime`, polynesiaTime);
                 localStorage.setItem(`${day}PasswordZoomLink`, passwordZoomLink);
+
+                // Fetch emoji from the server
+                const emojiPromise = fetchEmoji(day, topic);
+                emojiPromises.push(emojiPromise);
             });
+
+            // Wait for all emojis to be fetched and stored
+            await Promise.all(emojiPromises);
 
             // Redirect to the results page
             window.location.href = 'results.html';
@@ -67,3 +69,32 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Submit button not found');
     }
 });
+
+// Function to fetch emoji from the server
+async function fetchEmoji(day, topic) {
+    try {
+        const response = await fetch('http://localhost:3000/fetch-emoji', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ topic })
+        });
+        const data = await response.json();
+        if (data.emoji) {
+            localStorage.setItem(`${day}Emoji`, data.emoji);
+            console.log(`${day} Emoji:`, data.emoji);
+        } else {
+            console.error(`No emoji returned for ${day}`);
+        }
+    } catch (error) {
+        console.error(`Error fetching emoji for ${day}:`, error);
+    }
+}
+
+// Function to convert time to different time zones
+function convertTime(baseTime, baseOffset, targetOffset) {
+    const baseDateTime = new Date(`2021-01-01T${baseTime}:00.000Z`);
+    baseDateTime.setHours(baseDateTime.getHours() + targetOffset - baseOffset);
+    return baseDateTime.toISOString().substring(11, 16);  // Return time in HH:MM format
+}
