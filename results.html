@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mandala Semaine</title>
+</head>
+
+<body>
+  <h1>Mandala Semaine</h1>
+  
+  <p>
+💙🔵🟦🔵💙🔵🟦🔵💙<br>
+Honorer son féminin sacré<br>
+<br>
+     🌀••• L A  S O U R C E •••🌀<br>
+<br>
+Sourcières • Soeurcieres • Sorcières<br>
+<br>
+🧜‍♀️👁🕸🐺🐢 🌀 🐢🐺🕸👁🧜‍♀️<br>
+••• R E S S O U R Ç O N S - N O U S<br>
+••• L I V R O N S - N O U S<br>  
+<br>
+🐚🐚🐚🐚🐚🐚🐚🐚🐚<br>
+<br>
+
+<!-- Results Section for Each Day -->
+
+<!-- Monday Results -->
+<section id="mondayResults">
+LUNDI <span id="emojiMonday"></span><br>
+<span id="displayMondayTopic"></span><br>
+<span id="displayMondayTimeZone"></span>  🇫🇷<br>
+<span id="displayMondayCanaryTime"></span>  🇮🇨<br>
+<span id="displayMondayReunionTime"></span>  🇷🇪<br>
+<span id="displayMondayVietnamTime"></span>  🇻🇳🇹🇭<br>
+<span id="displayMondayPolynesiaTime"></span>  🇵🇫<br>
+<span id="displayMondayZoomLink"></span><br>
+Mdp : <span id="displayMondayPasswordZoomLink"></span><br>
+<br>
+</section>
+
+<!-- Tuesday Results -->
+<section id="tuesdayResults">
+MARDI <span id="emojiTuesday"></span><br>
+<span id="displayTuesdayTopic"></span><br>
+<span id="displayTuesdayTimeZone"></span>  🇫🇷<br>
+<span id="displayTuesdayCanaryTime"></span>  🇮🇨<br>
+<span id="displayTuesdayReunionTime"></span>  🇷🇪<br>
+<span id="displayTuesdayVietnamTime"></span>  🇻🇳🇹🇭<br>
+<span id="displayTuesdayPolynesiaTime"></span>  🇵🇫<br>
+<span id="displayTuesdayZoomLink"></span><br>
+Mdp : <span id="displayTuesdayPasswordZoomLink"></span><br>
+<br>
+</section>
+
+<!-- Wednesday Results -->
+<section id="wednesdayResults">
+MERCREDI <span id="emojiWednesday"></span><br>
+<span id="displayWednesdayTopic"></span><br>
+<span id="displayWednesdayTimeZone"></span>  🇫🇷<br>
+<span id="displayWednesdayCanaryTime"></span>  🇮🇨<br>
+<span id="displayWednesdayReunionTime"></span>  🇷🇪<br>
+<span id="displayWednesdayVietnamTime"></span>  🇻🇳🇹🇭<br>
+<span id="displayWednesdayPolynesiaTime"></span>  🇵🇫<br>
+<span id="displayWednesdayZoomLink"></span><br>
+Mdp : <span id="displayWednesdayPasswordZoomLink"></span><br>
+<br>
+</section>
+
+<!-- Thursday Results -->
+<section id="thursdayResults">
+JEUDI <span id="emojiThursday"></span><br>
+<span id="displayThursdayTopic"></span><br>
+<span id="displayThursdayTimeZone"></span>  🇫🇷<br>
+<span id="displayThursdayCanaryTime"></span>  🇮🇨<br>
+<span id="displayThursdayReunionTime"></span>  🇷🇪<br>
+<span id="displayThursdayVietnamTime"></span>  🇻🇳🇹🇭<br>
+<span id="displayThursdayPolynesiaTime"></span>  🇵🇫<br>
+<span id="displayThursdayZoomLink"></span><br>
+Mdp : <span id="displayThursdayPasswordZoomLink"></span><br>
+<br>
+</section>
+
+<!-- Friday Results -->
+<section id="fridayResults">
+VENDREDI <span id="emojiFriday"></span><br>
+<span id="displayFridayTopic"></span> <br>
+<span id="displayFridayTimeZone"></span>  🇫🇷<br>
+<span id="displayFridayCanaryTime"></span>  🇮🇨<br>
+<span id="displayFridayReunionTime"></span>  🇷🇪<br>
+<span id="displayFridayVietnamTime"></span>  🇻🇳🇹🇭<br>
+<span id="displayFridayPolynesiaTime"></span>  🇵🇫<br>
+<span id="displayFridayZoomLink"></span><br>
+Mdp : <span id="displayFridayPasswordZoomLink"></span><br>
+<br>
+</section>
+
+🐚🐚🐚🐚🐚🐚🐚🐚🐚<br>
+<br>
+Devenir celle que l’on est en puissance • Être soi et fière de l’être • Nous sommes COMPLETES, ici et maintenant<br>
+<br>
+💙🔵🟦🔵💙🔵🟦🔵💙<br>
+💧VIRGINIE • <br>
+🌍MARION • MATHILDE •<br>
+🌬️MORGANE • ISABELLE • THUY DUONG • CAMILLE •<br>
+🔥CÉLINE • SANDRINE • LUCIE • SARAH • HÉLÈNE • MARINA • LILOU<br>
+🔥•<br>
+🌟FLORENCE • MATHILDE • SARAH •<br>
+💙🔵🟦🔵💙🔵🟦🔵💙<br>
+</p>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Days array to loop through
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    
+        days.forEach(day => {
+            // Retrieve and display the stored data from local storage for each day
+            document.getElementById(`display${day}Topic`).textContent = localStorage.getItem(`${day}Topic`);
+            document.getElementById(`display${day}TimeZone`).textContent = localStorage.getItem(`${day}TimeZone`);
+            document.getElementById(`display${day}CanaryTime`).textContent = localStorage.getItem(`${day}CanaryTime`);
+            document.getElementById(`display${day}ReunionTime`).textContent = localStorage.getItem(`${day}ReunionTime`);
+            document.getElementById(`display${day}VietnamTime`).textContent = localStorage.getItem(`${day}VietnamTime`);
+            document.getElementById(`display${day}PolynesiaTime`).textContent = localStorage.getItem(`${day}PolynesiaTime`);
+            document.getElementById(`display${day}ZoomLink`).textContent = localStorage.getItem(`${day}ZoomLink`);
+            document.getElementById(`display${day}PasswordZoomLink`).textContent = localStorage.getItem(`${day}PasswordZoomLink`);
+            document.getElementById(`emoji${day}`).textContent = localStorage.getItem(`${day}Emoji`); // Display the emoji
+        });
+    });
+    </script>
+    
+    <button onclick="history.back()">Retour</button>
+    </body>
+    </html>
