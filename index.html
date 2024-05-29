@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mandala Semaine</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
@@ -149,5 +149,46 @@
     <input type="submit" value="Submit" />
 
     <script src="script.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        try {
+          // Fetch data from the server
+          const response = await fetch(
+            "https://lasource.onrender.com/get-data"
+          );
+          const data = await response.json();
+
+          // Object to map day names to section IDs
+          const dayMapping = {
+            Monday: "monday",
+            Tuesday: "tuesday",
+            Wednesday: "wednesday",
+            Thursday: "thursday",
+            Friday: "friday",
+          };
+
+          // Loop through the fetched data and update the corresponding fields
+          data.forEach((entry) => {
+            const dayId = dayMapping[entry.day]; // Get the corresponding section ID
+            if (dayId) {
+              // Update the input fields with the fetched data
+              document.getElementById(
+                `topic${dayId.charAt(0).toUpperCase() + dayId.slice(1)}`
+              ).value = entry.topic;
+              document.getElementById(
+                `timeZone${dayId.charAt(0).toUpperCase() + dayId.slice(1)}`
+              ).value = entry.timeZone;
+              document.getElementById(
+                `animator${dayId.charAt(0).toUpperCase() + dayId.slice(1)}`
+              ).value = entry.animator;
+            }
+          });
+        } catch (error) {
+          // Log any errors that occur during the fetch operation
+          console.error("Error fetching entries:", error);
+        }
+      });
+    </script>
   </body>
 </html>
