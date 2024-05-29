@@ -1,8 +1,3 @@
-Sure! I will remove the gradient overlay and keep the color bar on the side for each section.
-
-Here's the updated CSS:
-
-```css
 /* Reset some default browser styles */
 * {
     margin: 0;
@@ -60,9 +55,9 @@ label {
 input[type="text"],
 input[type="time"],
 select {
-    width: 100%;
+    width: calc(100% - 20px); /* Added margin space */
     padding: 10px;
-    margin: 5px 0 15px;
+    margin: 5px 10px 15px 10px; /* Adjusted margin space */
     border: 1px solid #d1d5db;
     border-radius: 5px;
     font-size: 1em;
@@ -111,6 +106,7 @@ input[type="submit"]:active {
         display: flex;
         align-items: center;
         margin-bottom: 10px;
+        padding: 0 10px; /* Added padding for form group */
     }
 
     .form-group label {
@@ -175,9 +171,3 @@ input[type="submit"]:active {
 .breadcrumb span {
     margin: 0 5px;
 }
-```
-
-In this update:
-- The gradient overlay from the section has been removed.
-- The left border gradient remains to add a touch of color to each section.
-- The form layout on mobile devices is more compact, with labels and inputs aligned next to each other.
