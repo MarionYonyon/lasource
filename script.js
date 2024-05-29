@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Function to fetch emoji from the server
 async function fetchEmoji(day, topic) {
     try {
-        const response = await fetch('http://localhost:3000/fetch-emoji', {
+        const response = await fetch('https://lasource.onrender.com/fetch-emoji', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -19,6 +19,11 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
+
 app.post("/fetch-emoji", async (req, res) => {
   const { topic } = req.body;
 
