@@ -190,6 +190,7 @@
                 topic: entry.topic,
                 timeZone: entry.timeZone,
                 animator: entry.animator,
+                emoji: entry.emoji, // Store the existing emoji
               };
             }
           });
@@ -215,56 +216,62 @@
           .getElementById("submit")
           .addEventListener("click", async function () {
             let dataChanged = false;
+            let updatedData = [];
 
             // Check if any data has changed
             Object.keys(existingData).forEach((dayId) => {
               const dayCapitalize =
                 dayId.charAt(0).toUpperCase() + dayId.slice(1);
+              const newTopic = document.getElementById(
+                `topic${dayCapitalize}`
+              ).value;
+              const newTimeZone = document.getElementById(
+                `timeZone${dayCapitalize}`
+              ).value;
+              const newAnimator = document.getElementById(
+                `animator${dayCapitalize}`
+              ).value;
+              const existing = existingData[dayId];
+
               if (
-                document.getElementById(`topic${dayCapitalize}`).value !==
-                  existingData[dayId].topic ||
-                document.getElementById(`timeZone${dayCapitalize}`).value !==
-                  existingData[dayId].timeZone ||
-                document.getElementById(`animator${dayCapitalize}`).value !==
-                  existingData[dayId].animator
+                newTopic !== existing.topic ||
+                newTimeZone !== existing.timeZone ||
+                newAnimator !== existing.animator
               ) {
                 dataChanged = true;
+                updatedData.push({
+                  day: dayId.charAt(0).toUpperCase() + dayId.slice(1),
+                  topic: newTopic,
+                  timeZone: newTimeZone,
+                  animator: newAnimator,
+                  emoji: existing.emoji, // Use the existing emoji if the topic hasn't changed
+                });
               }
             });
 
             // If data has changed, submit the form
             if (dataChanged) {
-              // Prepare the data to be submitted
-              const updatedData = Object.keys(dayMapping).map((day) => {
-                const dayId = dayMapping[day];
-                const dayCapitalize =
-                  dayId.charAt(0).toUpperCase() + dayId.slice(1);
-                return {
-                  day: day,
-                  topic: document.getElementById(`topic${dayCapitalize}`).value,
-                  timeZone: document.getElementById(`timeZone${dayCapitalize}`)
-                    .value,
-                  animator: document.getElementById(`animator${dayCapitalize}`)
-                    .value,
-                };
-              });
-
               try {
                 // Fetch emojis only if topics have changed
                 if (topicsChanged) {
                   for (const entry of updatedData) {
-                    const response = await fetch(
-                      "https://lasource.onrender.com/fetch-emoji",
-                      {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ topic: entry.topic }),
-                      }
-                    );
-                    const result = await response.json();
-                    entry.emoji = result.emoji;
+                    if (
+                      entry.topic !==
+                      existingData[entry.day.toLowerCase()].topic
+                    ) {
+                      const response = await fetch(
+                        "https://lasource.onrender.com/fetch-emoji",
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({ topic: entry.topic }),
+                        }
+                      );
+                      const result = await response.json();
+                      entry.emoji = result.emoji;
+                    }
                   }
                 }
 
