@@ -10,12 +10,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
-
 app.use(cors());
 app.use(express.json());
 
@@ -23,8 +17,8 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-
 app.post("/fetch-emoji", async (req, res) => {
+  console.log('Received POST request on /fetch-emoji');
   const { topic } = req.body;
 
   const apiKey = process.env.OPENAI_API_KEY;
