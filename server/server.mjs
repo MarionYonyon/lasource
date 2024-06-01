@@ -33,6 +33,7 @@ const dataSchema = new mongoose.Schema({
   vietnamTime: String,
   polynesiaTime: String,
   emoji: String,
+  timestamp: { type: Date, default: Date.now },
 });
 const Data = mongoose.model("Data", dataSchema);
 
@@ -43,13 +44,27 @@ app.get("/", (req, res) => {
 // Route to store data
 app.post("/save-data", async (req, res) => {
   try {
-    const data = new Data(req.body);
-    await data.save();
+    const { timestamp, ...data } = req.body;
+
+    // Check if an entry with the same timestamp exists
+    const existingEntry = await Data.findOne({ timestamp });
+
+    if (existingEntry) {
+      // Update the existing entry
+      Object.assign(existingEntry, data);
+      await existingEntry.save();
+    } else {
+      // Create a new entry
+      const newData = new Data({ ...data, timestamp });
+      await newData.save();
+    }
+
     res.status(200).json({ message: "Data saved successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to save data" });
   }
 });
+
 // Route to retrieve data
 app.get("/get-data", async (req, res) => {
   try {

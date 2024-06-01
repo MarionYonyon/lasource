@@ -41,8 +41,10 @@ export async function handleDOMContentLoaded() {
 export async function handleFormSubmit(event) {
   event.preventDefault(); // Stop the form from submitting through HTTP
 
+  const timestamp = new Date().toISOString()
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const savePromises = [];
+  
 
   for (const day of days) {
     const topic = document.getElementById(`topic${day}`).value;
@@ -98,7 +100,8 @@ export async function handleFormSubmit(event) {
       reunionTime,
       vietnamTime,
       polynesiaTime,
-      emoji, // Include the fetched emoji
+      emoji,
+      timestamp
     };
 
     // Save the data to the server
