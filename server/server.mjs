@@ -6,7 +6,6 @@ import axios from "axios";
 import mongoose from "mongoose";
 
 // Load .env file from the ./server directory
-dotenv.config();
 dotenv.config({ path: './server/.env' });
 
 const app = express();
@@ -47,19 +46,6 @@ app.get("/", (req, res) => {
 app.post("/save-data", async (req, res) => {
   try {
     const { timestamp, ...data } = req.body;
-
-    // Check if an entry with the same timestamp exists
-    const existingEntry = await Data.findOne({ timestamp });
-
-    if (existingEntry) {
-      // Update the existing entry
-      Object.assign(existingEntry, data);
-      await existingEntry.save();
-    } else {
-      // Create a new entry
-      const newData = new Data({ ...data, timestamp });
-      await newData.save();
-    }
 
     res.status(200).json({ message: "Data saved successfully" });
   } catch (error) {
