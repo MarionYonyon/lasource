@@ -53,30 +53,12 @@ app.get("/", (req, res) => {
 // Route to store data
 app.post("/save-data", async (req, res) => {
   try {
-    const { day, topic, animator, timeZone, zoomLink, passwordZoomLink, canaryTime, reunionTime, vietnamTime, polynesiaTime, emoji } = req.body;
-
-    const currentDate = new Date();
-    const weekNumber = getWeekNumber(currentDate);
-    const year = currentDate.getFullYear();
-
-    const newDayData = {
-      day,
-      topic,
-      animator,
-      timeZone,
-      zoomLink,
-      passwordZoomLink,
-      canaryTime,
-      reunionTime,
-      vietnamTime,
-      polynesiaTime,
-      emoji,
-    };
+    const { weekNumber, year, days } = req.body;
 
     // Find the document for the current week, or create a new one if it doesn't exist
     const updatedWeekData = await WeekData.findOneAndUpdate(
-      { weekNumber: weekNumber, year: year },
-      { $push: { days: newDayData } },
+      { weekNumber, year },
+      { $set: { days } },
       { upsert: true, new: true }
     );
 

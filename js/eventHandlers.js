@@ -1,6 +1,11 @@
 // Imports
 import { fetchEmoji, getData, saveDataToServer } from "./api.js";
-import { capitalizeFirstLetter, dayMapping, convertTime } from "./utils.js";
+import {
+  capitalizeFirstLetter,
+  dayMapping,
+  convertTime,
+  getWeekNumber,
+} from "./utils.js";
 
 // Initialization Functions
 export async function handleDOMContentLoaded() {
@@ -51,7 +56,11 @@ export async function handleFormSubmit(event) {
 
   const timestamp = new Date().toISOString();
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; // TODO: use dayMapping (tip: Object.keys())
-  const savePromises = [];
+  const weekData = {
+    weekNumber: getWeekNumber(new Date()),
+    year: new Date().getFullYear(),
+    days: [],
+  };
 
   for (const day of days) {
     const topic = document.getElementById(`topic${day}`).value;
@@ -109,18 +118,17 @@ export async function handleFormSubmit(event) {
         vietnamTime,
         polynesiaTime,
         emoji,
-        timestamp,
       };
 
-      // Save the data to the server
-      const savePromise = saveDataToServer(dayData);
-      savePromises.push(savePromise);
+      // Add the day data to the week data
+      weekData.days.push(dayData);
     } catch (error) {
       console.error(`Error handling data for ${day}:`, error);
     }
   }
-  // Wait for all data to be saved
-  await Promise.all(savePromises);
+
+  // Save the entire week data to the server
+  await saveDataToServer(weekData);
 
   // Redirect to the results page
   window.location.href = "results.html";
