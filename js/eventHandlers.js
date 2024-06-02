@@ -117,7 +117,7 @@ try {
     console.error(`Error handling data for ${day}:`, error);
   }
   }
-
+}
   if (dayData) {
     await saveDataToServer(dayData); // Save the single entry
 
