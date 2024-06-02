@@ -5,7 +5,9 @@ import bodyParser from "body-parser";
 import axios from "axios";
 import mongoose from "mongoose";
 
+// Load .env file from the ./server directory
 dotenv.config();
+dotenv.config({ path: './server/.env' });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
