@@ -6,7 +6,7 @@ import axios from "axios";
 import mongoose from "mongoose";
 
 // Load .env file from the ./server directory
-dotenv.config({ path: './server/.env' });
+dotenv.config({ path: "./server/.env" });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,8 +47,13 @@ app.post("/save-data", async (req, res) => {
   try {
     const { timestamp, ...data } = req.body;
 
+    // Insert data into the MongoDB collection
+    const newData = new Data(data);
+    await newData.save();
+
     res.status(200).json({ message: "Data saved successfully" });
   } catch (error) {
+    console.error("Error saving data:", error);
     res.status(500).json({ error: "Failed to save data" });
   }
 });
@@ -59,6 +64,7 @@ app.get("/get-data", async (req, res) => {
     const data = await Data.find({});
     res.status(200).json(data);
   } catch (error) {
+    console.error("Error retrieving data:", error);
     res.status(500).json({ error: "Failed to retrieve data" });
   }
 });
