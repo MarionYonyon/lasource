@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import axios from "axios";
 import mongoose from "mongoose";
-import { getWeekNumber } from './js/utils.js';
+import { getWeekNumber } from '../js/utils.js';
 
 // Load .env file from the ./server directory
 dotenv.config({ path: "./server/.env" });
