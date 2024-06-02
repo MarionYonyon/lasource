@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import axios from "axios";
 import mongoose from "mongoose";
+import { getWeekNumber } from './utils.js';
 
 // Load .env file from the ./server directory
 dotenv.config({ path: "./server/.env" });
@@ -21,8 +22,8 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Define a schema and model for storing data
-const dataSchema = new mongoose.Schema({
+// Define schemas and models for storing data
+const daySchema = new mongoose.Schema({
   day: String,
   topic: String,
   animator: String,
@@ -34,9 +35,16 @@ const dataSchema = new mongoose.Schema({
   vietnamTime: String,
   polynesiaTime: String,
   emoji: String,
+});
+
+const weekSchema = new mongoose.Schema({
+  weekNumber: Number,
+  year: Number,
+  days: [daySchema],
   timestamp: { type: Date, default: Date.now },
 });
-const Data = mongoose.model("Data", dataSchema);
+
+const WeekData = mongoose.model("WeekData", weekSchema);
 
 app.get("/", (req, res) => {
   res.send("Server is running!");
@@ -45,13 +53,34 @@ app.get("/", (req, res) => {
 // Route to store data
 app.post("/save-data", async (req, res) => {
   try {
-    const { timestamp, ...data } = req.body;
+    const { day, topic, animator, timeZone, zoomLink, passwordZoomLink, canaryTime, reunionTime, vietnamTime, polynesiaTime, emoji } = req.body;
 
-    // Insert data into the MongoDB collection
-    const newData = new Data(data);
-    await newData.save();
+    const currentDate = new Date();
+    const weekNumber = getWeekNumber(currentDate);
+    const year = currentDate.getFullYear();
 
-    res.status(200).json({ message: "Data saved successfully" });
+    const newDayData = {
+      day,
+      topic,
+      animator,
+      timeZone,
+      zoomLink,
+      passwordZoomLink,
+      canaryTime,
+      reunionTime,
+      vietnamTime,
+      polynesiaTime,
+      emoji,
+    };
+
+    // Find the document for the current week, or create a new one if it doesn't exist
+    const updatedWeekData = await WeekData.findOneAndUpdate(
+      { weekNumber: weekNumber, year: year },
+      { $push: { days: newDayData } },
+      { upsert: true, new: true }
+    );
+
+    res.status(200).json({ message: "Data saved successfully", weekData: updatedWeekData });
   } catch (error) {
     console.error("Error saving data:", error);
     res.status(500).json({ error: "Failed to save data" });
@@ -61,7 +90,7 @@ app.post("/save-data", async (req, res) => {
 // Route to retrieve data
 app.get("/get-data", async (req, res) => {
   try {
-    const data = await Data.find({});
+    const data = await WeekData.find({});
     res.status(200).json(data);
   } catch (error) {
     console.error("Error retrieving data:", error);
