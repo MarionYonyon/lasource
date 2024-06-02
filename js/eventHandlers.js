@@ -15,36 +15,42 @@ export async function handleDOMContentLoaded() {
     const data = await getData();
     console.log('Fetched data:', data);  // Log the fetched data
 
-    if (Array.isArray(data)) {
-      const dayMap = dayMapping();
-      data.forEach((entry) => {
-        const dayId = dayMap[entry.day];
-        if (dayId) {
+    if (data && data.days && Array.isArray(data.days)) {
+      const weekData = data;  // Directly use the fetched object
+
+      if (weekData.days.length > 0) {
+        const dayMap = dayMapping();
+        weekData.days.forEach((entry) => {
+          const dayId = dayMap[entry.day];
+          if (dayId) {
+            const dayCapitalize = capitalizeFirstLetter(dayId);
+            document.getElementById(`topic${dayCapitalize}`).value = entry.topic;
+            document.getElementById(`timeZone${dayCapitalize}`).value =
+              entry.timeZone;
+            document.getElementById(`animator${dayCapitalize}`).value =
+              entry.animator;
+            existingData[dayId] = {
+              topic: entry.topic,
+              timeZone: entry.timeZone,
+              animator: entry.animator,
+              emoji: entry.emoji,
+            };
+          }
+        });
+        Object.keys(dayMap).forEach((day) => {
+          const dayId = dayMap[day];
           const dayCapitalize = capitalizeFirstLetter(dayId);
-          document.getElementById(`topic${dayCapitalize}`).value = entry.topic;
-          document.getElementById(`timeZone${dayCapitalize}`).value =
-            entry.timeZone;
-          document.getElementById(`animator${dayCapitalize}`).value =
-            entry.animator;
-          existingData[dayId] = {
-            topic: entry.topic,
-            timeZone: entry.timeZone,
-            animator: entry.animator,
-            emoji: entry.emoji,
-          };
-        }
-      });
-      Object.keys(dayMap).forEach((day) => {
-        const dayId = dayMap[day];
-        const dayCapitalize = capitalizeFirstLetter(dayId);
-        document
-          .getElementById(`topic${dayCapitalize}`)
-          .addEventListener("input", () => {
-            topicsChanged = true;
-          });
-      });
+          document
+            .getElementById(`topic${dayCapitalize}`)
+            .addEventListener("input", () => {
+              topicsChanged = true;
+            });
+        });
+      } else {
+        console.error("weekData.days is empty");
+      }
     } else {
-      console.error("Fetched data is not an array");
+      console.error("Fetched data is not an object or days is not an array");
     }
   } catch (error) {
     console.error("Error fetching entries:", error);
