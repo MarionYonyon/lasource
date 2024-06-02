@@ -18,10 +18,7 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -84,8 +81,8 @@ app.post("/save-data", async (req, res) => {
 // Route to retrieve data
 app.get("/get-data", async (req, res) => {
   try {
-    const data = await WeekData.find({});
-    console.log("Data retrieved successfully:", data);
+    const data = await WeekData.findOne().sort({ timestamp: -1 });
+    console.log("Most recent data retrieved successfully:", data);
     res.status(200).json(data);
   } catch (error) {
     console.error("Error retrieving data:", error);
