@@ -34,15 +34,20 @@ export async function handleDOMContentLoaded() {
   } catch (error) {
     console.error("Error fetching entries:", error);
   }
-  document.getElementById("submit").addEventListener("click", handleFormSubmit);
+
+// Move the form submission event listener setup here
+document.getElementById("submit").addEventListener("click", async (event) => {
+  await handleFormSubmit(event);
+});
 }
+
 
 // Event Handler Functions
 export async function handleFormSubmit(event) {
   event.preventDefault(); // Stop the form from submitting through HTTP
 
   const timestamp = new Date().toISOString()
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; // TODO: use dayMapping (tip: Object.keys())
   const savePromises = [];
   
 
@@ -86,6 +91,7 @@ export async function handleFormSubmit(event) {
     const vietnamTime = convertTime(timeZone, 2, 7);
     const polynesiaTime = convertTime(timeZone, 2, -10);
 
+try {
     // Fetch emoji from the server
     const emoji = await fetchEmoji(topic);
 
@@ -107,6 +113,9 @@ export async function handleFormSubmit(event) {
     // Save the data to the server
     const savePromise = saveDataToServer(dayData);
     savePromises.push(savePromise);
+  } catch (error) {
+    console.error(`Error handling data for ${day}:`, error);
+  }
   }
 
   // Wait for all data to be saved
