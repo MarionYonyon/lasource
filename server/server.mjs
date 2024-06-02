@@ -53,7 +53,10 @@ app.get("/", (req, res) => {
 // Route to store data
 app.post("/save-data", async (req, res) => {
   try {
+    console.log("Received /save-data request");
+    console.log("Request body:", req.body);
     const { weekNumber, year, days } = req.body;
+console.log("Request body:", req.body);
 
     // Find the document for the current week, or create a new one if it doesn't exist
     const updatedWeekData = await WeekData.findOneAndUpdate(
@@ -62,6 +65,7 @@ app.post("/save-data", async (req, res) => {
       { upsert: true, new: true }
     );
 
+    console.log("Data saved successfully:", updatedWeekData);
     res.status(200).json({ message: "Data saved successfully", weekData: updatedWeekData });
   } catch (error) {
     console.error("Error saving data:", error);

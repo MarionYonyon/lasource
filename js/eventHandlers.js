@@ -127,6 +127,8 @@ export async function handleFormSubmit(event) {
     }
   }
 
+  console.log("Submitting week data to server:", weekData);
+
   // Save the entire week data to the server
   await saveDataToServer(weekData);
 
