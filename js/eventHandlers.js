@@ -34,16 +34,21 @@ export async function handleDOMContentLoaded() {
   } catch (error) {
     console.error("Error fetching entries:", error);
   }
-  document.getElementById("submit").addEventListener("click", handleFormSubmit);
+
+// Move the form submission event listener setup here
+document.getElementById("submit").addEventListener("click", async (event) => {
+  await handleFormSubmit(event);
+});
 }
+
 
 // Event Handler Functions
 export async function handleFormSubmit(event) {
   event.preventDefault(); // Stop the form from submitting through HTTP
 
-  const timestamp = new Date().toISOString();
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  let dayData = null;
+  const timestamp = new Date().toISOString()
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; // TODO: use dayMapping (tip: Object.keys())
+  const savePromises = [];
 
   for (const day of days) {
     const topic = document.getElementById(`topic${day}`).value;
@@ -86,8 +91,9 @@ export async function handleFormSubmit(event) {
       const vietnamTime = convertTime(timeZone, 2, 7);
       const polynesiaTime = convertTime(timeZone, 2, -10);
 
-      // Fetch emoji from the server
-      const emoji = await fetchEmoji(topic);
+try {
+    // Fetch emoji from the server
+    const emoji = await fetchEmoji(topic);
 
       dayData = {
         day,
@@ -104,8 +110,12 @@ export async function handleFormSubmit(event) {
         timestamp
       };
 
-      break; // Exit the loop after processing the first filled out day
-    }
+    // Save the data to the server
+    const savePromise = saveDataToServer(dayData);
+    savePromises.push(savePromise);
+  } catch (error) {
+    console.error(`Error handling data for ${day}:`, error);
+  }
   }
 
   if (dayData) {

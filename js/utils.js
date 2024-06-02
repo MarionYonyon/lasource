@@ -1,25 +1,25 @@
 // converTime function
 export function convertTime(baseTime, baseOffset, targetOffset) {
-    const baseDateTime = new Date(`2021-01-01T${baseTime}:00.000Z`);
-    baseDateTime.setHours(baseDateTime.getHours() + targetOffset - baseOffset);
-    return baseDateTime.toISOString().substring(11, 16); // Return time in HH:MM format
-  }
+  const baseDateTime = new Date(`2021-01-01T${baseTime}:00.000Z`);
+  baseDateTime.setHours(baseDateTime.getHours() + targetOffset - baseOffset);
+  return baseDateTime.toISOString().substring(11, 16); // Return time in HH:MM format
+}
 
-  // capitalizeFirstLetter function
-  export function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
-  // dayMapping function
-  export function dayMapping() {
-    return {
-      Monday: "monday",
-      Tuesday: "tuesday",
-      Wednesday: "wednesday",
-      Thursday: "thursday",
-      Friday: "friday"
-    };
-  }
+// capitalizeFirstLetter function
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// dayMapping function
+export function dayMapping() {
+  return {
+    Monday: "monday",
+    Tuesday: "tuesday",
+    Wednesday: "wednesday",
+    Thursday: "thursday",
+    Friday: "friday",
+  };
+}
 
 // Function to generate the index HTML for each day's section
 export function generateDaySection(day) {
@@ -43,5 +43,3 @@ export function generateDaySection(day) {
     </section>
   `;
 }
-
-
