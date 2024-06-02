@@ -28,7 +28,9 @@ export async function fetchEmoji(topic) {
 export async function getData() {
   try {
     const response = await fetch(`${SERVER_URL}/get-data`);
-    return await response.json();
+    const data = await response.json();
+    console.log('Data fetched from server:', data);  // Log the data
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
