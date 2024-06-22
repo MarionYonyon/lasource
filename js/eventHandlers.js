@@ -107,6 +107,9 @@ export async function handleFormSubmit(event) {
         zoomLink = "https://zoom.us/j/6960552890/";
         passwordZoomLink = "source";
         break;
+      case "Morgane":
+        zoomLink = "https://zoom.us/j/79880046588/"
+        passwordZoomLink = "diK00REEfZvcMcjniZkxbFbfiEm46r.1"
     }
 
     const canaryTime = convertTime(timeZone, 2, 1);

@@ -39,6 +39,7 @@ export function generateDaySection(day) {
         <option value="Isabelle">Isabelle</option>
         <option value="Duong">Thuy Duong</option>
         <option value="Camille">Camille</option>
+        <option value="Morgane">Morgane</option>
       </select><br /><br />
     </section>
   `;
