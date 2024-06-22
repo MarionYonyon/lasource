@@ -13,10 +13,10 @@ export async function handleDOMContentLoaded() {
   let topicsChanged = false;
   try {
     const data = await getData();
-    console.log('Fetched data:', data);  // Log the fetched data
+    console.log("Fetched data:", data); // Log the fetched data
 
     if (data && data.days && Array.isArray(data.days)) {
-      const weekData = data;  // Directly use the fetched object
+      const weekData = data; // Directly use the fetched object
 
       if (weekData.days.length > 0) {
         const dayMap = dayMapping();
@@ -24,7 +24,8 @@ export async function handleDOMContentLoaded() {
           const dayId = dayMap[entry.day];
           if (dayId) {
             const dayCapitalize = capitalizeFirstLetter(dayId);
-            document.getElementById(`topic${dayCapitalize}`).value = entry.topic;
+            document.getElementById(`topic${dayCapitalize}`).value =
+              entry.topic;
             document.getElementById(`timeZone${dayCapitalize}`).value =
               entry.timeZone;
             document.getElementById(`animator${dayCapitalize}`).value =
@@ -65,6 +66,10 @@ export async function handleDOMContentLoaded() {
 // Event Handler Functions
 export async function handleFormSubmit(event) {
   event.preventDefault(); // Stop the form from submitting through HTTP
+
+  // Show the spinner and hide the button text
+  document.getElementById("submitText").style.display = "none";
+  document.getElementById("submitSpinner").style.display = "inline-block";
 
   const timestamp = new Date().toISOString();
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; // TODO: use dayMapping (tip: Object.keys())
@@ -108,8 +113,8 @@ export async function handleFormSubmit(event) {
         passwordZoomLink = "source";
         break;
       case "Morgane":
-        zoomLink = "https://zoom.us/j/79880046588/"
-        passwordZoomLink = "diK00REEfZvcMcjniZkxbFbfiEm46r.1"
+        zoomLink = "https://zoom.us/j/79880046588/";
+        passwordZoomLink = "diK00REEfZvcMcjniZkxbFbfiEm46r.1";
     }
 
     const canaryTime = convertTime(timeZone, 2, 1);

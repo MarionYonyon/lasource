@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mandala Semaine</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <h1>Mandala Semaine</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mandala Semaine</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Mandala Semaine</h1>
 
-  <!-- Container for dynamically generated day sections -->
-  <div id="daysContainer"></div>
+    <!-- Loading indicator with spinner -->
+    <div id="loadingIndicator" class="loading">
+      <div class="spinner"></div>
+      <p>
+        Chargement, veuillez patienter... Cela peut prendre jusqu'à 1 minute.
+      </p>
+    </div>
 
-  <!-- Submit button -->
-  <input type="submit" id="submit" value="Submit" />
+    <!-- Container for dynamically generated day sections -->
+    <div id="daysContainer" style="display: none"></div>
 
-  <!-- Include the external JavaScript file -->
-  <script type="module" src="./js/dynamicContent.js"></script>
-</body>
+    <!-- Submit button -->
+    <button id="submit" class="submit-button" style="display: none">
+      <span id="submitText">Submit</span>
+      <div
+        id="submitSpinner"
+        class="button-spinner"
+        style="display: none"
+      ></div>
+    </button>
+
+    <!-- Include the external JavaScript file -->
+    <script type="module" src="./js/dynamicContent.js"></script>
+  </body>
 </html>

@@ -65,8 +65,10 @@ select {
     background-color: #fff;
 }
 
-input[type="submit"] {
-    display: block;
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     background: linear-gradient(45deg, #EE4AF5, #7896FE);
     color: white;
@@ -80,13 +82,13 @@ input[type="submit"] {
     transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-input[type="submit"]:hover {
+.submit-button:hover {
     background: linear-gradient(45deg, #7896FE, #EE4AF5);
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
-input[type="submit"]:active {
+.submit-button:active {
     background: linear-gradient(45deg, #6366f1, #a6b1ff);
     transform: translateY(0);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -122,7 +124,7 @@ input[type="submit"]:active {
         margin-left: 10px;
     }
 
-    input[type="submit"] {
+    .submit-button {
         font-size: 1em;
     }
 }
@@ -170,4 +172,42 @@ input[type="submit"]:active {
 
 .breadcrumb span {
     margin: 0 5px;
+}
+
+/* Loading indicator styles */
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    color: #3a3f51;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Spinner styles */
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3a3f51; /* Darker grey/blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Submit button spinner */
+.button-spinner {
+    width: 20px;
+    height: 20px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #fff; /* Spinner color for dark background */
+    animation: spin 2s linear infinite;
+    margin-left: 10px;
 }
