@@ -19,8 +19,5 @@
     "express": "^4.19.2",
     "if-env": "^1.0.4",
     "mongoose": "^8.4.0"
-  },
-  "devDependencies": {
-    "http-server": "^14.1.1"
   }
 }
